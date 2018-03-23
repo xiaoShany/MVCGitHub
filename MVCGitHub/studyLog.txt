@@ -1,0 +1,41 @@
+﻿******学习EF6*****************************
+2018-03-20
+	1、在Models里创建3个实体类
+	2、在项目根目录下创建DAL文件夹，这个文件夹主要存放数据集及创建数据库及添加初始数据。默认模式为code first.由实体创建数据库，默认模式为删除重建数据库模式。
+	3、配置web.config
+		a.配置创建数据库对应的文件路径，及配置默认的数据库驱动
+			<entityFramework>
+				<contexts>
+					<context type="MVCGitHub.DAL.SchoolContext,MVCGitHub" disableDatabaseInitialization="true"><!--disableDatabaseInitialization="true" 表示不使用下面配置的文件进行数据初始化-->
+						<databaseInitializer type="MVCGitHub.DAL.SchoolInitializer, MVCGitHub" ></databaseInitializer>
+					</context>
+				</contexts>
+				<defaultConnectionFactory type="System.Data.Entity.Infrastructure.LocalDbConnectionFactory, EntityFramework">
+					<parameters>
+						<parameter value="MSSQLLocalDB" />
+					</parameters>
+				</defaultConnectionFactory>
+				<providers>
+					<provider invariantName="System.Data.SqlClient" type="System.Data.Entity.SqlServer.SqlProviderServices, EntityFramework.SqlServer" />
+				</providers>
+			</entityFramework>
+		b.数据库默认采用轻量级的sql server
+			<connectionStrings>
+				<add name="DefaultConnection" connectionString="Data Source=(LocalDb)\MSSQLLocalDB;Initial Catalog=MVCGitHub;Integrated Security=SSPI;AttachDBFilename=|DataDirectory|\MVCGitHub.mdf;" providerName="System.Data.SqlClient" /><!--AttachDBFilename=|DataDirectory|\MVCGitHub.mdf 加上这段则数据库文件会存储到App_Data文件夹内-->
+			</connectionStrings>
+			<appSettings>
+				<add key="webpages:Version" value="3.0.0.0" />
+			    <add key="webpages:Enabled" value="false" />
+			    <add key="ClientValidationEnabled" value="true" />
+			    <add key="UnobtrusiveJavaScriptEnabled" value="true" />
+			</appSettings>
+2018-03-21
+	1.在Controllers里创建基架项目，选择需要创建基架的model和数据库上下文文件。自动生成控制器和对应的view
+	2.基架生成的控制器里有9个方法，其中8个是增删改查数据的方法，最后1个是关闭连接。增删改查各对应一个展示页面。
+	***Code first 模式自动创建数据库失败
+2018-03-22
+	1.如果用自己的数据库，不用默认的则不要设置defaultConnectionFactory，将defaultConnectionFactory整项注释
+	2.数据库字符串格式为：<add name="SchoolContext" connectionString="Data Source=.; Database=SchoolContext; User ID=sa; Password=ck111222;" providerName="System.Data.SqlClient" />
+2018-03-23
+	1.学习展示实体里的属性及集合属性
+	2.学习增删改查
